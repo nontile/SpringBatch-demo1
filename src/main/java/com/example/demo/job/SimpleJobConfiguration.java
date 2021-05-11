@@ -1,5 +1,7 @@
 package com.example.demo.job;
 
+import com.example.demo.db.DbConn;
+
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -23,6 +25,9 @@ public class SimpleJobConfiguration {
     @Autowired
     private StepBuilderFactory stepBuilderFactory;
 
+    @Autowired
+    private DbConn dbConn;
+
     @Bean
     public Job simpleJob(){
         return jobBuilderFactory.get("simpleJob")
@@ -34,7 +39,7 @@ public class SimpleJobConfiguration {
     public Step simpleStep1() {
         return stepBuilderFactory.get("simpleStep1")
                 .tasklet((contribution, chunkContext) -> {
-                    log.info(">>>>> This is Step1");
+                    dbConn.getConnection();
                     return RepeatStatus.FINISHED;
                 })
                 .build();
