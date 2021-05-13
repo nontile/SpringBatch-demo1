@@ -19,8 +19,8 @@ public class DbConn {
         String url = connection.getMetaData().getURL();
         String userName = connection.getMetaData().getUserName();
         
-        System.out.print(url);
-        System.out.print(userName);
+        System.out.println(url);
+        System.out.println(userName);
         
     }
     
