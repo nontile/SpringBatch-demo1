@@ -11,5 +11,5 @@ services:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
     volumes:
-      - /home/dongyulim/docker-vol/mysql-5.7:/var/lib/mysql
+      - /home/dongyulim/data/mysql:/var/lib/mysql
 

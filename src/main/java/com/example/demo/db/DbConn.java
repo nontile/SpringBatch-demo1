@@ -21,6 +21,7 @@ public class DbConn {
         
         System.out.println(url);
         System.out.println(userName);
+        connection.close();
         
     }
     

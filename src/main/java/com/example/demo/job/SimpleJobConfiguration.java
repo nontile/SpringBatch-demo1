@@ -5,7 +5,9 @@ import com.example.demo.db.DbConn;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,21 +28,19 @@ public class SimpleJobConfiguration {
     @Autowired
     private StepBuilderFactory stepBuilderFactory;
 
-    @Autowired
-    private DbConn dbConn;
 
     @Bean
     public Job simpleJob(){
         return jobBuilderFactory.get("simpleJob")
-                .start(simpleStep1(null))
+                .start(simpleStep1("!11"))
                 .build();
     }
 
     @Bean
-    public Step simpleStep1(@Value("#{jobParameters[requestDate]}")String requestDate) {
+    @JobScope
+    public Step simpleStep1(@Value("#{jobParameters['requestDate']}") String requestDate) {
         return stepBuilderFactory.get("simpleStep1")
                 .tasklet((contribution, chunkContext) -> {
-                    dbConn.getConnection();
                     log.info(">>> requestDate = {}", requestDate);
                     return RepeatStatus.FINISHED;
                 })
